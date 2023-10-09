@@ -1,0 +1,58 @@
+---
+title: Example - quarto using both python and R
+author: Adrienne Stilp
+date: October 9, 2023
+output: html_document
+---
+
+```{python}
+# python packages
+# pip install jupyter (for quarto)
+# pip install pandas
+import pandas as pd
+# pip install seaborn
+import seaborn as sns
+# pip install palmerpenguins
+from palmerpenguins import load_penguins
+```
+
+```{r}
+# R packages
+# install.packages("reticulate")  # to run python
+# install.packages("knitr")
+library(knitr)
+# install.packages("ggplot2")
+library(ggplot2)
+# install.packages("tidyverse")
+library(tidyverse)
+```
+
+# Prepare the dataset in python
+
+```{python}
+penguins = load_penguins()
+print(penguins.head())
+```
+
+## Add dummy variables
+
+```{python}
+dat = penguins.dropna()
+# Create indicator variables
+dat = pd.get_dummies(dat)
+dat.head()
+```
+
+## Save the dataset as a tsv
+
+```{python}
+dat.to_csv("penguins.tsv", sep="\t")
+```
+
+# Fit a linear model in R
+
+```{r}
+dat <- read_tsv("penguins.tsv")
+lmr <- lm(flipper_length_mm ~ body_mass_g + sex_male + species_Chinstrap + species_Gentoo, data=dat)
+summary(lmr)
+```

@@ -1,0 +1,36 @@
+---
+title: Example - existing Rmarkdown file
+author: Adrienne Stilp
+date: October 9, 2023
+output: html_document
+---
+
+```{r}
+# install.packages("knitr")
+library(knitr)
+# install.packages("ggplot2")
+library(ggplot2)
+# install.packages("tidyverse")
+library(tidyverse)
+# remotes::install_github("allisonhorst/palmerpenguins")
+library(palmerpenguins)
+```
+
+# Load dataset
+
+```{r}
+head(penguins) %>% kable()
+```
+
+# Make a plot
+
+```{r}
+ggplot(penguins, aes(x=flipper_length_mm, y=body_mass_g, color=species)) + geom_point()
+```
+
+# Fit a linear model
+
+```{r}
+lmr <- lm(flipper_length_mm ~ body_mass_g + sex + species, data=penguins)
+summary(lmr)
+```
